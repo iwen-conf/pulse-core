@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package ledger;
+
+// Go 代码的包路径
+option go_package = "gen/go/janus/v1;janusv1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+// ===================================================================
+// 核心数据对象 (Core Data Objects)
+// ===================================================================
+
+// Account: 会计科目对象
+// 代表一个特定"核算实体"下的一个记账分类，例如"电商部的库存现金"。
+message Account {
+  string id = 1;                // 账户的全局唯一ID (UUID)
+  string entity_id = 2;         // 所属核算实体的ID
+  string name = 3;              // 账户名称，如："库存现金"
+  string type = 4;              // 账户类型 (ASSET, LIABILITY, EQUITY, REVENUE, EXPENSE)
+  string normal_balance = 5;    // 正常余额方向 (DEBIT, CREDIT)
+  int64 balance_cents = 6;      // 当前余额（分）
+  string currency = 7;          // 货币代码 (CNY, USD)
+  bool is_active = 8;           // 是否激活，可用于禁用一个科目
+}
+
+// Entry: 单笔记账条目 (借或贷)
+// 代表记账凭证中的一行。
+message Entry {
+  string account_id = 1;        // 必须是已存在的会计科目的ID
+  int64 amount_cents = 2;       // 金额（正数为借，负数为贷）
+}
+
+// JournalEntry: 记账凭证对象
+// 代表一笔完整的、借贷平衡的业务。
+message JournalEntry {
+  string id = 1;                     // 凭证的全局唯一ID (UUID)
+  string entity_id = 2;              // 所属核算实体的ID
+  string idempotency_key = 3;        // 用于防止重复记账的幂等键
+  string description = 4;            // 凭证摘要，描述业务内容
+  google.protobuf.Timestamp entry_date = 5; // 记账日期
+  repeated Entry entries = 6;      // 包含所有借方和贷方条目，其总和必须为零
+  string user_id = 7;                // 记录该凭证的用户ID
+}
+
+// ===================================================================
+// LedgerService 定义
+// ===================================================================
+// LedgerService 是记账核心的统一接口。
+service LedgerService {
+
+  // ----------------- 会计科目表管理 (Chart of Accounts Management) -----------------
+  // 这一组接口是记账前的"准备工作"。
+
+  // 为一个已存在的实体创建一个会计科目。
+  rpc CreateAccount(CreateAccountRequest) returns (Account);
+
+  // 获取一个会计科目的详细信息，包括实时余额。
+  rpc GetAccount(GetAccountRequest) returns (Account);
+
+  // 列出一个核算实体的所有会计科目（即其专属的会计科目表）。
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
+
+  // 更新一个会计科目的信息（例如：修改名称或禁用它）。
+  rpc UpdateAccount(UpdateAccountRequest) returns (Account);
+
+  // ----------------- 记账凭证操作 (Journal Entry Operations) -----------------
+  // 这一组接口是日常的"业务操作"。
+
+  // 记录一笔记账分录 (核心写操作)。
+  rpc RecordJournalEntry(RecordJournalEntryRequest) returns (RecordJournalEntryResponse);
+
+  // 获取一笔记账凭证的详细信息。
+  rpc GetJournalEntry(GetJournalEntryRequest) returns (JournalEntry);
+
+  // 列出一个核算实体的记账凭证历史。
+  rpc ListJournalEntries(ListJournalEntriesRequest) returns (ListJournalEntriesResponse);
+
+  // 列出一个用户处理过的所有记账凭证。
+  rpc ListJournalEntriesByUser(ListJournalEntriesByUserRequest) returns (ListJournalEntriesResponse);
+
+  // 冲正一笔已存在的记账凭证，会创建一笔金额完全相反的新凭证。
+  rpc ReverseJournalEntry(ReverseJournalEntryRequest) returns (RecordJournalEntryResponse);
+}
+
+// ===================================================================
+// RPC 方法的请求与响应体 (Request & Response Payloads)
+// ===================================================================
+
+// --- 科目管理 ---
+
+message CreateAccountRequest {
+  string entity_id = 1;
+  string name = 2;
+  string type = 3;
+  string normal_balance = 4;
+  string currency = 5;
+}
+
+message GetAccountRequest {
+  string entity_id = 1;
+  string account_id = 2;
+}
+
+message ListAccountsRequest {
+  string entity_id = 1;
+  int32 page_size = 2;
+  string page_token = 3; // 用于分页
+}
+
+message ListAccountsResponse {
+  repeated Account accounts = 1;
+  string next_page_token = 2;
+}
+
+message UpdateAccountRequest {
+  string entity_id = 1;
+  string account_id = 2;
+  google.protobuf.StringValue name = 3;
+  google.protobuf.BoolValue is_active = 4;
+}
+
+// --- 凭证操作 ---
+
+message RecordJournalEntryRequest {
+  string entity_id = 1;
+  string request_id = 2; // 幂等键
+  string description = 3;
+  google.protobuf.Timestamp entry_date = 4;
+  repeated Entry entries = 5;
+  string user_id = 6; // 操作用户的ID
+}
+
+message RecordJournalEntryResponse {
+  string status = 1;          // e.g., "ACCEPTED"
+  string workflow_id = 2;     // 用于追踪的 Temporal Workflow ID
+  string journal_entry_id = 3; // 新创建的凭证ID
+}
+
+message GetJournalEntryRequest {
+  string entity_id = 1;
+  string journal_entry_id = 2;
+}
+
+message ListJournalEntriesRequest {
+  string entity_id = 1;
+  google.protobuf.Timestamp start_date = 2;
+  google.protobuf.Timestamp end_date = 3;
+  int32 page_size = 4;
+  string page_token = 5;
+}
+
+message ListJournalEntriesResponse {
+  repeated JournalEntry journal_entries = 1;
+  string next_page_token = 2;
+}
+
+message ListJournalEntriesByUserRequest {
+  string user_id = 1;           // 用户ID
+  string entity_id = 2;         // 可选，如果提供则只返回该实体下的记录
+  google.protobuf.Timestamp start_date = 3;  // 可选的开始日期
+  google.protobuf.Timestamp end_date = 4;    // 可选的结束日期
+  int32 page_size = 5;          // 分页大小
+  string page_token = 6;        // 分页令牌
+}
+
+message ReverseJournalEntryRequest {
+  string entity_id = 1;
+  string request_id = 2; // 冲正操作自身的幂等键
+  string original_journal_entry_id = 3; // 要冲正的原始凭证ID
+  string description = 4; // 冲正原因
+  string user_id = 5;     // 操作用户的ID
+}

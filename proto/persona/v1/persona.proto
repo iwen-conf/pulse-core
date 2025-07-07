@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package persona.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/your-org/internal-api/gen/go/persona/v1;personav1";
+
+//==============================================
+// Persona 服务定义 (正式版)
+//==============================================
+
+// PersonaService 只提供纯粹的用户档案管理 (CRUD) 功能。
+// 所有认证、密码、令牌相关操作均由专门的 Auth 服务负责。
+service PersonaService {
+  // 创建一个新用户档案 (不包含密码)
+  rpc CreateUser(CreateUserRequest) returns (User);
+
+  // 根据ID获取用户档案信息
+  rpc GetUserProfile(GetUserProfileRequest) returns (User);
+
+  // 通过手机号查询用户档案
+  rpc GetUserByPhone(GetUserByPhoneRequest) returns (User);
+
+  // 通过电子邮箱查询用户档案
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (User);
+
+  // 更新用户档案信息
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (User);
+
+  // [对内核心接口] 验证一个用户ID是否存在且状态正常
+  rpc ValidateUserExists(ValidateUserExistsRequest) returns (ValidateUserExistsResponse);
+}
+
+
+//==============================================
+// 核心数据对象
+//==============================================
+
+// User 消息只包含公开的、非敏感的档案信息
+message User {
+  string id = 1;                              // 用户的唯一ID (UUID)
+  string full_name = 2;                       // 用户的完整姓名
+  string phone = 3;                           // 用户的手机号
+  string email = 4;                           // 用户的电子邮箱
+  string avatar_url = 5;                      // 用户头像的URL
+  string status = 6;                          // 用户状态
+  google.protobuf.Timestamp created_at = 7;   // 档案创建时间
+}
+
+
+//==============================================
+// RPC 方法的请求与响应对象
+//==============================================
+
+// CreateUserRequest 只需提供创建档案所需的基本信息
+message CreateUserRequest {
+  string full_name = 1;
+  string email = 2;
+  // 可以选择性地在创建时就指定头像
+  string avatar_url = 3;
+}
+
+// GetUserProfileRequest 通过ID查询
+message GetUserProfileRequest {
+  string id = 1;
+}
+
+// GetUserByPhoneRequest 通过手机号查询
+message GetUserByPhoneRequest {
+  string phone = 1;
+}
+
+// GetUserByEmailRequest 通过电子邮箱查询
+message GetUserByEmailRequest {
+  string email = 1;
+}
+
+// UpdateUserProfileRequest 使用 FieldMask 实现部分更新
+message UpdateUserProfileRequest {
+  string id = 1;                              // 必填：要更新的用户ID
+  
+  // 可选的、要更新的字段
+  string full_name = 2;
+  string avatar_url = 3;
+  
+  // 明确告诉服务器只想更新哪些字段
+  google.protobuf.FieldMask update_mask = 4;
+}
+
+// ValidateUserExistsRequest 保持轻量，为内部服务间调用优化
+message ValidateUserExistsRequest {
+  string id = 1;
+}
+
+message ValidateUserExistsResponse {
+  bool exists = 1;
+  string status = 2;                          // 附加返回用户状态，便于调用方（如Nexus）做更复杂的业务判断
+}
