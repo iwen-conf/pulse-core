@@ -527,7 +527,7 @@ const file_persona_v1_persona_proto_rawDesc = "" +
 	"\x0eGetUserByPhone\x12!.persona.v1.GetUserByPhoneRequest\x1a\x10.persona.v1.User\x12E\n" +
 	"\x0eGetUserByEmail\x12!.persona.v1.GetUserByEmailRequest\x1a\x10.persona.v1.User\x12K\n" +
 	"\x11UpdateUserProfile\x12$.persona.v1.UpdateUserProfileRequest\x1a\x10.persona.v1.User\x12c\n" +
-	"\x12ValidateUserExists\x12%.persona.v1.ValidateUserExistsRequest\x1a&.persona.v1.ValidateUserExistsResponseB>Z<github.com/your-org/internal-api/gen/go/persona/v1;personav1b\x06proto3"
+	"\x12ValidateUserExists\x12%.persona.v1.ValidateUserExistsRequest\x1a&.persona.v1.ValidateUserExistsResponseB\x1dZ\x1bgen/go/persona/v1;personav1b\x06proto3"
 
 var (
 	file_persona_v1_persona_proto_rawDescOnce sync.Once
