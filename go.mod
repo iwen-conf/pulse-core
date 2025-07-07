@@ -1,4 +1,4 @@
-module github.com/iwen-conf/pulse/core
+module github.com/iwen-conf/pulse-core
 
 go 1.24.4
 
