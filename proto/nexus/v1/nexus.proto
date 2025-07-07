@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+// 定义包名，避免命名冲突
+package nexus.v1;
+
+// 引入谷歌官方的 timestamp 类型，用于处理时间
+import "google/protobuf/timestamp.proto";
+
+// 定义 Go 包的路径，protoc 生成代码时会使用
+option go_package = "gen/go/nexus/v1;nexusv1";
+
+//==============================================
+// Nexus 服务定义
+//==============================================
+
+// NexusService 提供了管理组织、层级和成员关系的核心功能
+service NexusService {
+  // 创建一个新的组织
+  rpc CreateOrganization(CreateOrganizationRequest) returns (Organization) {}
+
+  // 根据ID获取组织的详细信息
+  rpc GetOrganization(GetOrganizationRequest) returns (Organization) {}
+
+  // 将一个用户添加为组织的成员
+  rpc AddMember(AddMemberRequest) returns (AddMemberResponse) {}
+
+  // 列出某个组织的所有成员
+  rpc ListMembers(ListMembersRequest) returns (ListMembersResponse) {}
+
+  // [对内核心接口] 验证一个组织ID是否存在且有效
+  // 这是为 Nexus 及其他内部服务提供的关键、高性能接口
+  rpc ValidateOrganizationExists(ValidateOrganizationExistsRequest) returns (ValidateOrganizationExistsResponse) {}
+}
+
+
+//==============================================
+// 核心数据对象 (Messages)
+//==============================================
+
+// Organization 代表一个组织单元
+message Organization {
+  string id = 1;                              // 组织的唯一ID (UUID)
+  string name = 2;                            // 组织名称
+  string description = 3;                     // 组织描述
+  string parent_id = 4;                       // 父组织的ID，若无则为空
+  google.protobuf.Timestamp created_at = 5;   // 创建时间
+  google.protobuf.Timestamp updated_at = 6;   // 最后更新时间
+}
+
+// Membership 代表一个成员关系
+message Membership {
+  string organization_id = 1;                 // 组织ID
+  string user_id = 2;                         // 用户ID
+  google.protobuf.Timestamp join_date = 3;    // 加入时间
+}
+
+
+//==============================================
+// RPC 方法的请求与响应对象
+//==============================================
+
+// CreateOrganization
+message CreateOrganizationRequest {
+  string name = 1;                            // 必填：组织名称
+  string description = 2;                     // 可选：描述
+  string parent_id = 3;                       // 可选：父组织ID
+}
+
+// GetOrganization
+message GetOrganizationRequest {
+  string id = 1;                              // 必填：要查询的组织ID
+}
+
+// AddMember
+message AddMemberRequest {
+  string organization_id = 1;                 // 必填：目标组织ID
+  string user_id = 2;                         // 必填：要添加的用户ID
+}
+
+message AddMemberResponse {
+  bool success = 1;                           // 操作是否成功
+  Membership membership = 2;                  // 返回创建的成员关系详情
+}
+
+// ListMembers
+message ListMembersRequest {
+  string organization_id = 1;                 // 必填：要查询的组织ID
+}
+
+message ListMembersResponse {
+  repeated string user_ids = 1;               // 返回该组织所有成员的 user_id 列表
+}
+
+// ValidateOrganizationExists
+message ValidateOrganizationExistsRequest {
+  string organization_id = 1;                 // 必填：要验证的组织ID
+}
+
+message ValidateOrganizationExistsResponse {
+  bool exists = 1;                            // 组织是否存在
+  bool is_valid = 2;                          // 组织是否有效（未被删除或禁用）
+}

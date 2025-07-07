@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package auth.v1;
+
+option go_package = "gen/go/auth/v1;authv1";
+
+// AuthService 负责处理身份认证并颁发令牌
+service AuthService {
+  // LoginByPassword 是面向最终用户的密码登录接口
+  rpc LoginByPassword(LoginByPasswordRequest) returns (LoginResponse);
+
+  // AuthenticateWithProvider 处理第三方登录回调
+  rpc AuthenticateWithProvider(AuthenticateWithProviderRequest) returns (LoginResponse);
+
+  // SetPassword 是一个内部接口，用于在用户注册后设置初始密码
+  rpc SetPassword(SetPasswordRequest) returns (SetPasswordResponse);
+}
+
+// === 请求与响应 ===
+
+message LoginByPasswordRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthenticateWithProviderRequest {
+  string provider = 1; // "github", "google", etc.
+  string code = 2;     // 从第三方回调中获取的授权码
+}
+
+message LoginResponse {
+  string user_id = 1;
+  string access_token = 2;  // JWT 访问令牌
+  string refresh_token = 3; // 用于刷新访问令牌的令牌
+  int64  expires_in = 4;     // 访问令牌的有效期（秒）
+}
+
+message SetPasswordRequest {
+  string user_id = 1;
+  string password = 2;
+}
+
+message SetPasswordResponse {
+  bool success = 1;
+}
