@@ -1069,7 +1069,7 @@ var File_janus_v1_janus_proto protoreflect.FileDescriptor
 
 const file_janus_v1_janus_proto_rawDesc = "" +
 	"\n" +
-	"\x14janus/v1/janus.proto\x12\x06ledger\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xe3\x01\n" +
+	"\x14janus/v1/janus.proto\x12\x05janus\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xe3\x01\n" +
 	"\aAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tentity_id\x18\x02 \x01(\tR\bentityId\x12\x12\n" +
@@ -1082,15 +1082,15 @@ const file_janus_v1_janus_proto_rawDesc = "" +
 	"\x05Entry\x12\x1d\n" +
 	"\n" +
 	"account_id\x18\x01 \x01(\tR\taccountId\x12!\n" +
-	"\famount_cents\x18\x02 \x01(\x03R\vamountCents\"\x83\x02\n" +
+	"\famount_cents\x18\x02 \x01(\x03R\vamountCents\"\x82\x02\n" +
 	"\fJournalEntry\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tentity_id\x18\x02 \x01(\tR\bentityId\x12'\n" +
 	"\x0fidempotency_key\x18\x03 \x01(\tR\x0eidempotencyKey\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x129\n" +
 	"\n" +
-	"entry_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tentryDate\x12'\n" +
-	"\aentries\x18\x06 \x03(\v2\r.ledger.EntryR\aentries\x12\x17\n" +
+	"entry_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tentryDate\x12&\n" +
+	"\aentries\x18\x06 \x03(\v2\f.janus.EntryR\aentries\x12\x17\n" +
 	"\auser_id\x18\a \x01(\tR\x06userId\"\x9e\x01\n" +
 	"\x14CreateAccountRequest\x12\x1b\n" +
 	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x12\n" +
@@ -1106,24 +1106,24 @@ const file_janus_v1_janus_proto_rawDesc = "" +
 	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\"k\n" +
-	"\x14ListAccountsResponse\x12+\n" +
-	"\baccounts\x18\x01 \x03(\v2\x0f.ledger.AccountR\baccounts\x12&\n" +
+	"page_token\x18\x03 \x01(\tR\tpageToken\"j\n" +
+	"\x14ListAccountsResponse\x12*\n" +
+	"\baccounts\x18\x01 \x03(\v2\x0e.janus.AccountR\baccounts\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xbd\x01\n" +
 	"\x14UpdateAccountRequest\x12\x1b\n" +
 	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x1d\n" +
 	"\n" +
 	"account_id\x18\x02 \x01(\tR\taccountId\x120\n" +
 	"\x04name\x18\x03 \x01(\v2\x1c.google.protobuf.StringValueR\x04name\x127\n" +
-	"\tis_active\x18\x04 \x01(\v2\x1a.google.protobuf.BoolValueR\bisActive\"\xf6\x01\n" +
+	"\tis_active\x18\x04 \x01(\v2\x1a.google.protobuf.BoolValueR\bisActive\"\xf5\x01\n" +
 	"\x19RecordJournalEntryRequest\x12\x1b\n" +
 	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x02 \x01(\tR\trequestId\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x129\n" +
 	"\n" +
-	"entry_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tentryDate\x12'\n" +
-	"\aentries\x18\x05 \x03(\v2\r.ledger.EntryR\aentries\x12\x17\n" +
+	"entry_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tentryDate\x12&\n" +
+	"\aentries\x18\x05 \x03(\v2\f.janus.EntryR\aentries\x12\x17\n" +
 	"\auser_id\x18\x06 \x01(\tR\x06userId\"\x7f\n" +
 	"\x1aRecordJournalEntryResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12\x1f\n" +
@@ -1140,9 +1140,9 @@ const file_janus_v1_janus_proto_rawDesc = "" +
 	"\bend_date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\aendDate\x12\x1b\n" +
 	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
-	"page_token\x18\x05 \x01(\tR\tpageToken\"\x83\x01\n" +
-	"\x1aListJournalEntriesResponse\x12=\n" +
-	"\x0fjournal_entries\x18\x01 \x03(\v2\x14.ledger.JournalEntryR\x0ejournalEntries\x12&\n" +
+	"page_token\x18\x05 \x01(\tR\tpageToken\"\x82\x01\n" +
+	"\x1aListJournalEntriesResponse\x12<\n" +
+	"\x0fjournal_entries\x18\x01 \x03(\v2\x13.janus.JournalEntryR\x0ejournalEntries\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x85\x02\n" +
 	"\x1fListJournalEntriesByUserRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
@@ -1159,18 +1159,18 @@ const file_janus_v1_janus_proto_rawDesc = "" +
 	"request_id\x18\x02 \x01(\tR\trequestId\x129\n" +
 	"\x19original_journal_entry_id\x18\x03 \x01(\tR\x16originalJournalEntryId\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x17\n" +
-	"\auser_id\x18\x05 \x01(\tR\x06userId2\xdf\x05\n" +
-	"\rLedgerService\x12>\n" +
-	"\rCreateAccount\x12\x1c.ledger.CreateAccountRequest\x1a\x0f.ledger.Account\x128\n" +
+	"\auser_id\x18\x05 \x01(\tR\x06userId2\xcd\x05\n" +
+	"\rLedgerService\x12<\n" +
+	"\rCreateAccount\x12\x1b.janus.CreateAccountRequest\x1a\x0e.janus.Account\x126\n" +
 	"\n" +
-	"GetAccount\x12\x19.ledger.GetAccountRequest\x1a\x0f.ledger.Account\x12I\n" +
-	"\fListAccounts\x12\x1b.ledger.ListAccountsRequest\x1a\x1c.ledger.ListAccountsResponse\x12>\n" +
-	"\rUpdateAccount\x12\x1c.ledger.UpdateAccountRequest\x1a\x0f.ledger.Account\x12[\n" +
-	"\x12RecordJournalEntry\x12!.ledger.RecordJournalEntryRequest\x1a\".ledger.RecordJournalEntryResponse\x12G\n" +
-	"\x0fGetJournalEntry\x12\x1e.ledger.GetJournalEntryRequest\x1a\x14.ledger.JournalEntry\x12[\n" +
-	"\x12ListJournalEntries\x12!.ledger.ListJournalEntriesRequest\x1a\".ledger.ListJournalEntriesResponse\x12g\n" +
-	"\x18ListJournalEntriesByUser\x12'.ledger.ListJournalEntriesByUserRequest\x1a\".ledger.ListJournalEntriesResponse\x12]\n" +
-	"\x13ReverseJournalEntry\x12\".ledger.ReverseJournalEntryRequest\x1a\".ledger.RecordJournalEntryResponseB\x19Z\x17gen/go/janus/v1;janusv1b\x06proto3"
+	"GetAccount\x12\x18.janus.GetAccountRequest\x1a\x0e.janus.Account\x12G\n" +
+	"\fListAccounts\x12\x1a.janus.ListAccountsRequest\x1a\x1b.janus.ListAccountsResponse\x12<\n" +
+	"\rUpdateAccount\x12\x1b.janus.UpdateAccountRequest\x1a\x0e.janus.Account\x12Y\n" +
+	"\x12RecordJournalEntry\x12 .janus.RecordJournalEntryRequest\x1a!.janus.RecordJournalEntryResponse\x12E\n" +
+	"\x0fGetJournalEntry\x12\x1d.janus.GetJournalEntryRequest\x1a\x13.janus.JournalEntry\x12Y\n" +
+	"\x12ListJournalEntries\x12 .janus.ListJournalEntriesRequest\x1a!.janus.ListJournalEntriesResponse\x12e\n" +
+	"\x18ListJournalEntriesByUser\x12&.janus.ListJournalEntriesByUserRequest\x1a!.janus.ListJournalEntriesResponse\x12[\n" +
+	"\x13ReverseJournalEntry\x12!.janus.ReverseJournalEntryRequest\x1a!.janus.RecordJournalEntryResponseB\x19Z\x17gen/go/janus/v1;janusv1b\x06proto3"
 
 var (
 	file_janus_v1_janus_proto_rawDescOnce sync.Once
@@ -1186,56 +1186,56 @@ func file_janus_v1_janus_proto_rawDescGZIP() []byte {
 
 var file_janus_v1_janus_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_janus_v1_janus_proto_goTypes = []any{
-	(*Account)(nil),                         // 0: ledger.Account
-	(*Entry)(nil),                           // 1: ledger.Entry
-	(*JournalEntry)(nil),                    // 2: ledger.JournalEntry
-	(*CreateAccountRequest)(nil),            // 3: ledger.CreateAccountRequest
-	(*GetAccountRequest)(nil),               // 4: ledger.GetAccountRequest
-	(*ListAccountsRequest)(nil),             // 5: ledger.ListAccountsRequest
-	(*ListAccountsResponse)(nil),            // 6: ledger.ListAccountsResponse
-	(*UpdateAccountRequest)(nil),            // 7: ledger.UpdateAccountRequest
-	(*RecordJournalEntryRequest)(nil),       // 8: ledger.RecordJournalEntryRequest
-	(*RecordJournalEntryResponse)(nil),      // 9: ledger.RecordJournalEntryResponse
-	(*GetJournalEntryRequest)(nil),          // 10: ledger.GetJournalEntryRequest
-	(*ListJournalEntriesRequest)(nil),       // 11: ledger.ListJournalEntriesRequest
-	(*ListJournalEntriesResponse)(nil),      // 12: ledger.ListJournalEntriesResponse
-	(*ListJournalEntriesByUserRequest)(nil), // 13: ledger.ListJournalEntriesByUserRequest
-	(*ReverseJournalEntryRequest)(nil),      // 14: ledger.ReverseJournalEntryRequest
+	(*Account)(nil),                         // 0: janus.Account
+	(*Entry)(nil),                           // 1: janus.Entry
+	(*JournalEntry)(nil),                    // 2: janus.JournalEntry
+	(*CreateAccountRequest)(nil),            // 3: janus.CreateAccountRequest
+	(*GetAccountRequest)(nil),               // 4: janus.GetAccountRequest
+	(*ListAccountsRequest)(nil),             // 5: janus.ListAccountsRequest
+	(*ListAccountsResponse)(nil),            // 6: janus.ListAccountsResponse
+	(*UpdateAccountRequest)(nil),            // 7: janus.UpdateAccountRequest
+	(*RecordJournalEntryRequest)(nil),       // 8: janus.RecordJournalEntryRequest
+	(*RecordJournalEntryResponse)(nil),      // 9: janus.RecordJournalEntryResponse
+	(*GetJournalEntryRequest)(nil),          // 10: janus.GetJournalEntryRequest
+	(*ListJournalEntriesRequest)(nil),       // 11: janus.ListJournalEntriesRequest
+	(*ListJournalEntriesResponse)(nil),      // 12: janus.ListJournalEntriesResponse
+	(*ListJournalEntriesByUserRequest)(nil), // 13: janus.ListJournalEntriesByUserRequest
+	(*ReverseJournalEntryRequest)(nil),      // 14: janus.ReverseJournalEntryRequest
 	(*timestamppb.Timestamp)(nil),           // 15: google.protobuf.Timestamp
 	(*wrapperspb.StringValue)(nil),          // 16: google.protobuf.StringValue
 	(*wrapperspb.BoolValue)(nil),            // 17: google.protobuf.BoolValue
 }
 var file_janus_v1_janus_proto_depIdxs = []int32{
-	15, // 0: ledger.JournalEntry.entry_date:type_name -> google.protobuf.Timestamp
-	1,  // 1: ledger.JournalEntry.entries:type_name -> ledger.Entry
-	0,  // 2: ledger.ListAccountsResponse.accounts:type_name -> ledger.Account
-	16, // 3: ledger.UpdateAccountRequest.name:type_name -> google.protobuf.StringValue
-	17, // 4: ledger.UpdateAccountRequest.is_active:type_name -> google.protobuf.BoolValue
-	15, // 5: ledger.RecordJournalEntryRequest.entry_date:type_name -> google.protobuf.Timestamp
-	1,  // 6: ledger.RecordJournalEntryRequest.entries:type_name -> ledger.Entry
-	15, // 7: ledger.ListJournalEntriesRequest.start_date:type_name -> google.protobuf.Timestamp
-	15, // 8: ledger.ListJournalEntriesRequest.end_date:type_name -> google.protobuf.Timestamp
-	2,  // 9: ledger.ListJournalEntriesResponse.journal_entries:type_name -> ledger.JournalEntry
-	15, // 10: ledger.ListJournalEntriesByUserRequest.start_date:type_name -> google.protobuf.Timestamp
-	15, // 11: ledger.ListJournalEntriesByUserRequest.end_date:type_name -> google.protobuf.Timestamp
-	3,  // 12: ledger.LedgerService.CreateAccount:input_type -> ledger.CreateAccountRequest
-	4,  // 13: ledger.LedgerService.GetAccount:input_type -> ledger.GetAccountRequest
-	5,  // 14: ledger.LedgerService.ListAccounts:input_type -> ledger.ListAccountsRequest
-	7,  // 15: ledger.LedgerService.UpdateAccount:input_type -> ledger.UpdateAccountRequest
-	8,  // 16: ledger.LedgerService.RecordJournalEntry:input_type -> ledger.RecordJournalEntryRequest
-	10, // 17: ledger.LedgerService.GetJournalEntry:input_type -> ledger.GetJournalEntryRequest
-	11, // 18: ledger.LedgerService.ListJournalEntries:input_type -> ledger.ListJournalEntriesRequest
-	13, // 19: ledger.LedgerService.ListJournalEntriesByUser:input_type -> ledger.ListJournalEntriesByUserRequest
-	14, // 20: ledger.LedgerService.ReverseJournalEntry:input_type -> ledger.ReverseJournalEntryRequest
-	0,  // 21: ledger.LedgerService.CreateAccount:output_type -> ledger.Account
-	0,  // 22: ledger.LedgerService.GetAccount:output_type -> ledger.Account
-	6,  // 23: ledger.LedgerService.ListAccounts:output_type -> ledger.ListAccountsResponse
-	0,  // 24: ledger.LedgerService.UpdateAccount:output_type -> ledger.Account
-	9,  // 25: ledger.LedgerService.RecordJournalEntry:output_type -> ledger.RecordJournalEntryResponse
-	2,  // 26: ledger.LedgerService.GetJournalEntry:output_type -> ledger.JournalEntry
-	12, // 27: ledger.LedgerService.ListJournalEntries:output_type -> ledger.ListJournalEntriesResponse
-	12, // 28: ledger.LedgerService.ListJournalEntriesByUser:output_type -> ledger.ListJournalEntriesResponse
-	9,  // 29: ledger.LedgerService.ReverseJournalEntry:output_type -> ledger.RecordJournalEntryResponse
+	15, // 0: janus.JournalEntry.entry_date:type_name -> google.protobuf.Timestamp
+	1,  // 1: janus.JournalEntry.entries:type_name -> janus.Entry
+	0,  // 2: janus.ListAccountsResponse.accounts:type_name -> janus.Account
+	16, // 3: janus.UpdateAccountRequest.name:type_name -> google.protobuf.StringValue
+	17, // 4: janus.UpdateAccountRequest.is_active:type_name -> google.protobuf.BoolValue
+	15, // 5: janus.RecordJournalEntryRequest.entry_date:type_name -> google.protobuf.Timestamp
+	1,  // 6: janus.RecordJournalEntryRequest.entries:type_name -> janus.Entry
+	15, // 7: janus.ListJournalEntriesRequest.start_date:type_name -> google.protobuf.Timestamp
+	15, // 8: janus.ListJournalEntriesRequest.end_date:type_name -> google.protobuf.Timestamp
+	2,  // 9: janus.ListJournalEntriesResponse.journal_entries:type_name -> janus.JournalEntry
+	15, // 10: janus.ListJournalEntriesByUserRequest.start_date:type_name -> google.protobuf.Timestamp
+	15, // 11: janus.ListJournalEntriesByUserRequest.end_date:type_name -> google.protobuf.Timestamp
+	3,  // 12: janus.LedgerService.CreateAccount:input_type -> janus.CreateAccountRequest
+	4,  // 13: janus.LedgerService.GetAccount:input_type -> janus.GetAccountRequest
+	5,  // 14: janus.LedgerService.ListAccounts:input_type -> janus.ListAccountsRequest
+	7,  // 15: janus.LedgerService.UpdateAccount:input_type -> janus.UpdateAccountRequest
+	8,  // 16: janus.LedgerService.RecordJournalEntry:input_type -> janus.RecordJournalEntryRequest
+	10, // 17: janus.LedgerService.GetJournalEntry:input_type -> janus.GetJournalEntryRequest
+	11, // 18: janus.LedgerService.ListJournalEntries:input_type -> janus.ListJournalEntriesRequest
+	13, // 19: janus.LedgerService.ListJournalEntriesByUser:input_type -> janus.ListJournalEntriesByUserRequest
+	14, // 20: janus.LedgerService.ReverseJournalEntry:input_type -> janus.ReverseJournalEntryRequest
+	0,  // 21: janus.LedgerService.CreateAccount:output_type -> janus.Account
+	0,  // 22: janus.LedgerService.GetAccount:output_type -> janus.Account
+	6,  // 23: janus.LedgerService.ListAccounts:output_type -> janus.ListAccountsResponse
+	0,  // 24: janus.LedgerService.UpdateAccount:output_type -> janus.Account
+	9,  // 25: janus.LedgerService.RecordJournalEntry:output_type -> janus.RecordJournalEntryResponse
+	2,  // 26: janus.LedgerService.GetJournalEntry:output_type -> janus.JournalEntry
+	12, // 27: janus.LedgerService.ListJournalEntries:output_type -> janus.ListJournalEntriesResponse
+	12, // 28: janus.LedgerService.ListJournalEntriesByUser:output_type -> janus.ListJournalEntriesResponse
+	9,  // 29: janus.LedgerService.ReverseJournalEntry:output_type -> janus.RecordJournalEntryResponse
 	21, // [21:30] is the sub-list for method output_type
 	12, // [12:21] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name

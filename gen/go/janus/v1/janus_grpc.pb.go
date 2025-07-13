@@ -19,15 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LedgerService_CreateAccount_FullMethodName            = "/ledger.LedgerService/CreateAccount"
-	LedgerService_GetAccount_FullMethodName               = "/ledger.LedgerService/GetAccount"
-	LedgerService_ListAccounts_FullMethodName             = "/ledger.LedgerService/ListAccounts"
-	LedgerService_UpdateAccount_FullMethodName            = "/ledger.LedgerService/UpdateAccount"
-	LedgerService_RecordJournalEntry_FullMethodName       = "/ledger.LedgerService/RecordJournalEntry"
-	LedgerService_GetJournalEntry_FullMethodName          = "/ledger.LedgerService/GetJournalEntry"
-	LedgerService_ListJournalEntries_FullMethodName       = "/ledger.LedgerService/ListJournalEntries"
-	LedgerService_ListJournalEntriesByUser_FullMethodName = "/ledger.LedgerService/ListJournalEntriesByUser"
-	LedgerService_ReverseJournalEntry_FullMethodName      = "/ledger.LedgerService/ReverseJournalEntry"
+	LedgerService_CreateAccount_FullMethodName            = "/janus.LedgerService/CreateAccount"
+	LedgerService_GetAccount_FullMethodName               = "/janus.LedgerService/GetAccount"
+	LedgerService_ListAccounts_FullMethodName             = "/janus.LedgerService/ListAccounts"
+	LedgerService_UpdateAccount_FullMethodName            = "/janus.LedgerService/UpdateAccount"
+	LedgerService_RecordJournalEntry_FullMethodName       = "/janus.LedgerService/RecordJournalEntry"
+	LedgerService_GetJournalEntry_FullMethodName          = "/janus.LedgerService/GetJournalEntry"
+	LedgerService_ListJournalEntries_FullMethodName       = "/janus.LedgerService/ListJournalEntries"
+	LedgerService_ListJournalEntriesByUser_FullMethodName = "/janus.LedgerService/ListJournalEntriesByUser"
+	LedgerService_ReverseJournalEntry_FullMethodName      = "/janus.LedgerService/ReverseJournalEntry"
 )
 
 // LedgerServiceClient is the client API for LedgerService service.
@@ -408,7 +408,7 @@ func _LedgerService_ReverseJournalEntry_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var LedgerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ledger.LedgerService",
+	ServiceName: "janus.LedgerService",
 	HandlerType: (*LedgerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
